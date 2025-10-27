@@ -35,7 +35,7 @@ const Navbar = () => {
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled
-          ? `bg-white shadow-md ${isHome ? 'pt-[7em]' : 'pt-[1em]'}`
+          ? `bg-white shadow-md ${isHome ? 'pt-[7em]' : 'pt-[1em]'}` 
           : `bg-gradient-to-b from-black/70 to-transparent ${isHome ? 'pt-[7em]' : 'pt-[3em]'}`
       }`}
     >
@@ -43,11 +43,21 @@ const Navbar = () => {
         {/* PC NAV */}
         <div className="hidden md:flex w-full items-center justify-center relative">
           <div className="absolute left-0 flex space-x-4">
-            <FaEnvelope className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
-            <FaWhatsapp className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
-            <FaFacebookF className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
-            <FaTiktok className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
-            <FaInstagram className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
+            <a href="mailto:info@viv.com" target="_blank" rel="noopener noreferrer">
+              <FaEnvelope className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
+            </a>
+            <a href="https://wa.me/+9613460293" target="_blank" rel="noopener noreferrer">
+              <FaWhatsapp className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
+            </a>
+            <a href="https://www.facebook.com/p/Vivica-Events-61553580276959/" target="_blank" rel="noopener noreferrer">
+              <FaFacebookF className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
+            </a>
+            <a href="https://www.tiktok.com/@vivicaevents" target="_blank" rel="noopener noreferrer">
+              <FaTiktok className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
+            </a>
+            <a href="https://www.instagram.com/vivicaevents" target="_blank" rel="noopener noreferrer">
+              <FaInstagram className={`text-lg ${scrolled ? 'text-black' : 'text-white'} cursor-pointer`} />
+            </a>
           </div>
 
           <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-8">
@@ -119,11 +129,7 @@ const Navbar = () => {
             onClick={() => setMenuOpen((prev) => !prev)}
             className="text-3xl focus:outline-none z-50 relative"
           >
-            {menuOpen ? (
-              <HiX className="text-black" /> // Always visible
-            ) : (
-              <FaBars className={`${scrolled ? 'text-black' : 'text-white'}`} />
-            )}
+            {menuOpen ? <HiX className="text-black" /> : <FaBars className={`${scrolled ? 'text-black' : 'text-white'}`} />}
           </button>
         </div>
       </div>
@@ -134,8 +140,6 @@ const Navbar = () => {
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
- 
-
         {navItems.map((item) => (
           <Link
             key={item}
@@ -148,11 +152,22 @@ const Navbar = () => {
         ))}
 
         <div className="flex space-x-5 mt-4">
-          {/* Mobile-only black icons */}
-          <FaWhatsapp className="text-2xl text-black" />
-          <FaFacebookF className="text-2xl text-black" />
-          <FaTiktok className="text-2xl text-black" />
-          <FaInstagram className="text-2xl text-black" />
+          {/* Mobile-only black icons with links */}
+          <a href="https://wa.me/+9613460293" target="_blank" rel="noopener noreferrer">
+            <FaWhatsapp className="text-2xl text-black" />
+          </a>
+          <a href="https://www.facebook.com/p/Vivica-Events-61553580276959/" target="_blank" rel="noopener noreferrer">
+            <FaFacebookF className="text-2xl text-black" />
+          </a>
+          <a href="https://www.tiktok.com/@vivicaevents" target="_blank" rel="noopener noreferrer">
+            <FaTiktok className="text-2xl text-black" />
+          </a>
+          <a href="https://www.instagram.com/vivicaevents" target="_blank" rel="noopener noreferrer">
+            <FaInstagram className="text-2xl text-black" />
+          </a>
+          <a href="mailto:info@viv.com" target="_blank" rel="noopener noreferrer">
+            <FaEnvelope className="text-2xl text-black" />
+          </a>
         </div>
       </div>
     </nav>

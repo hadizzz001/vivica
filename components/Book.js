@@ -84,55 +84,56 @@ Message: ${message || '-'}
     return `https://wa.me/96176419884?text=${encoded}`;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) {
-      setError('Please fill all required fields correctly.');
-      return;
-    }
-    setError('');
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateForm()) {
+    setError('Please fill all required fields correctly.');
+    return;
+  }
+  setError('');
+  setLoading(true);
 
-    try {
-      // Send order
-      const orderRes = await fetch('/api/sendOrder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+  // Open WhatsApp immediately
+  const whatsappUrl = createWhatsAppURL(formData);
+  const win = window.open(whatsappUrl, '_blank');
 
-      if (!orderRes.ok) throw new Error('Failed to create order.');
+  try {
+    // Send order
+    const orderRes = await fetch('/api/sendOrder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
 
-      // Send email
-      const emailRes = await fetch('/api/sendEmail3', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+    if (!orderRes.ok) throw new Error('Failed to create order.');
 
-      if (!emailRes.ok) throw new Error('Failed to send email.');
+    // Send email
+    const emailRes = await fetch('/api/sendEmail3', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
 
-      // Open WhatsApp
-      const whatsappUrl = createWhatsAppURL(formData);
-      window.open(whatsappUrl, '_blank');
+    if (!emailRes.ok) throw new Error('Failed to send email.');
 
-      alert('Your request has been sent successfully!');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        location: '',
-        subject: '',
-        message: '',
-        occasion: '',
-      });
-    } catch (err) {
-      console.error(err);
-      alert(err.message || 'Something went wrong.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    alert('Your request has been sent successfully!');
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      location: '',
+      subject: '',
+      message: '',
+      occasion: '',
+    });
+  } catch (err) {
+    console.error(err);
+    alert(err.message || 'Something went wrong.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
 <div className="p-8 max-w-6xl mx-auto">
