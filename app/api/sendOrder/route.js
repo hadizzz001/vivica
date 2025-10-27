@@ -15,12 +15,17 @@ export async function POST(request) {
             message,
             cat,
         } = body;
+
         const client = await clientPromise; // Connect to MongoDB
         const db = client.db('test'); // Replace with your database name
         const collection = db.collection('Order'); // Replace with your collection name
 
-console.log("Data: ", body);
+        console.log("Data: ", body);
 
+        // Get current date as string like "1/jul/2020"
+        const now = new Date();
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const dateString = `${now.getDate()}/${monthNames[now.getMonth()]}/${now.getFullYear()}`;
 
         // Insert the new order into the collection
         const result = await collection.insertOne({
@@ -31,6 +36,7 @@ console.log("Data: ", body);
             subject: subject,
             message: message,
             cat: cat,
+            date: dateString, // <-- added date here
         });
 
         return NextResponse.json({ success: true, insertedId: result.insertedId }); // Return success response
