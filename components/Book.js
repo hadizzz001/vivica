@@ -22,7 +22,7 @@ const toCamelCase = (str) =>
 export default function BookYourEvent() {
   const searchParams = useSearchParams();
   const search = searchParams.get('select');
-  const [occasions, setOccasions] = useState([]);
+  const [cats, setcats] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -33,26 +33,26 @@ export default function BookYourEvent() {
     location: '',
     subject: '',
     message: '',
-    occasion: '',
+    cat: '',
   });
 
   useEffect(() => {
-    const fetchOccasions = async () => {
+    const fetchcats = async () => {
       try {
         const res = await fetch('https://vivica-dash.netlify.app/api/project');
         const data = await res.json();
         if (Array.isArray(data)) {
           const titles = data.map((i) => i.title);
-          setOccasions(titles);
+          setcats(titles);
           if (search && titles.includes(search)) {
-            setFormData((prev) => ({ ...prev, occasion: search }));
+            setFormData((prev) => ({ ...prev, cat: search }));
           }
         }
       } catch (err) {
-        console.error('Error fetching occasions:', err);
+        console.error('Error fetching cats:', err);
       }
     };
-    fetchOccasions();
+    fetchcats();
   }, [search]);
 
   const handleChange = (e) => {
@@ -61,22 +61,22 @@ export default function BookYourEvent() {
   };
 
   const validateForm = () => {
-    const { name, email, phone, location, occasion } = formData;
+    const { name, email, phone, location, cat } = formData;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!name || !email || !phone || !location || !occasion) return false;
+    if (!name || !email || !phone || !location || !cat) return false;
     if (!emailRegex.test(email)) return false;
     return true;
   };
 
   const createWhatsAppURL = (data) => {
-    const { name, email, phone, location, subject, message, occasion } = data;
+    const { name, email, phone, location, subject, message, cat } = data;
     const msg = `
 *New Event Booking Request:*
 Name: ${name}
 Email: ${email}
 Phone: ${phone}
 Location: ${location}
-Occasion: ${occasion}
+Category: ${cat}
 Subject: ${subject || '-'}
 Message: ${message || '-'}
     `;
@@ -124,7 +124,7 @@ const handleSubmit = async (e) => {
       location: '',
       subject: '',
       message: '',
-      occasion: '',
+      cat: '',
     });
   } catch (err) {
     console.error(err);
@@ -196,10 +196,10 @@ const handleSubmit = async (e) => {
 
     {/* Right: Radio Buttons */}
     <div className="grid grid-cols-2 gap-4">
-      {occasions.length === 0 ? (
-        <p>Loading occasions...</p>
+      {cats.length === 0 ? (
+        <p>Loading cats...</p>
       ) : (
-        occasions.map((label, index) => {
+        cats.map((label, index) => {
           const image = imageUrls[index % imageUrls.length];
           const displayLabel = toCamelCase(label);
           return (
@@ -209,9 +209,9 @@ const handleSubmit = async (e) => {
             >
               <input
                 type="radio"
-                name="occasion"
+                name="cat"
                 value={label}
-                checked={formData.occasion === label}
+                checked={formData.cat === label}
                 onChange={handleChange}
                 className="hidden"
               />
@@ -223,7 +223,7 @@ const handleSubmit = async (e) => {
                 />
               </div>
               <span className="text-center mb-1">{displayLabel}</span>
-              {formData.occasion === label && (
+              {formData.cat === label && (
                 <Check color="#BD93D8" strokeWidth={3} size={28} />
               )}
             </label>

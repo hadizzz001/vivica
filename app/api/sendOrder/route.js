@@ -19,6 +19,7 @@ export async function POST(request) {
         const db = client.db('test'); // Replace with your database name
         const collection = db.collection('Order'); // Replace with your collection name
 
+console.log("Data: ", body);
 
 
         // Insert the new order into the collection
