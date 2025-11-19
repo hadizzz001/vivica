@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { myFont } from '../app/fonts';
 import { useSearchParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export default function OurStory() {
   const [project, setProject] = useState(null);
@@ -23,6 +24,9 @@ export default function OurStory() {
   useEffect(() => {
     if (search) fetchProject();
   }, [search]);
+
+  console.log("project.list", project?.list);
+  
 
   return (
     <>
@@ -76,21 +80,63 @@ onClick={() => {
 
       {/* Content Section */}
       <section className="w-full max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center mb-12">
-          <h1 className={`${myFont.className} myparhal2 mb-10`}>
-            {project?.title
-              ? project.title.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())
-              : 'Loading...'}
-          </h1>
+<div className="text-center mb-12">
+  <h1 className={`${myFont.className} myparhal2 mb-10`}>
+    {project?.title
+      ? project.title.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())
+      : 'Loading...'}
+  </h1>
 
-          <p
-            className="myGray mb-10"
-            style={{ fontSize: '16px', lineHeight: '1.6', textAlign: 'justify' }}
-            dangerouslySetInnerHTML={{
-              __html: project?.description || `Loading...`,
-            }}
-          ></p>
+ 
+{/* LIST SECTION */}
+{Array.isArray(project?.list) && project.list.length > 0 && (
+  <div className="flex flex-col items-start gap-6 mb-12">
+    {project.list.map((item, i) => (
+      <motion.div
+        key={i}
+        className="flex items-start gap-4"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ delay: i * 0.2, duration: 0.6, ease: "easeOut" }}
+      >
+        {/* Number Circle */}
+        <div
+          className="flex items-center justify-center rounded-full shrink-0"
+          style={{
+            width: '60px',
+            height: '60px',
+            backgroundColor: '#f6e8ff',
+            color: '#222',
+            fontSize: '22px',
+            fontWeight: 'bold',
+          }}
+        >
+          {i + 1}
         </div>
+
+        {/* Text */}
+        <p style={{ color: '#222', fontSize: '18px', lineHeight: '1.6' }}>
+          {item}
+        </p>
+      </motion.div>
+    ))}
+  </div>
+)}
+
+
+
+
+  {/* DESCRIPTION */}
+  <p
+    className="myGray mb-10"
+    style={{ fontSize: '16px', lineHeight: '1.6', textAlign: 'justify' }}
+    dangerouslySetInnerHTML={{
+      __html: project?.description || `Loading...`,
+    }}
+  ></p>
+</div>
+
 
         {/* Gallery Section */}
         {project ? (
