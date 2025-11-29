@@ -106,8 +106,8 @@ onClick={() => {
           style={{
             width: '60px',
             height: '60px',
-            backgroundColor: '#f6e8ff',
-            color: '#222',
+            backgroundColor: '#35A7BB',
+            color: '#fff',
             fontSize: '22px',
             fontWeight: 'bold',
           }}
